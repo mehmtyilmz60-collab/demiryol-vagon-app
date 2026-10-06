@@ -20,7 +20,7 @@ vagonlar_db = [
         "gecmis": [
             "01.10.2026 08:00 - Atölyeye giriş yaptı.",
             "02.10.2026 10:00 - Kanala alındı.",
-            "05.10.2026 16:00 - Bakım tamamlandı. (336 Adam-Saat)"
+            "05.10.2026 16:00 - Bakım tamamlandı. (312 Adam-Saat)"
         ]
     },
     {
@@ -78,6 +78,18 @@ def home():
                 width: auto; 
                 border-radius: 8px; 
                 box-shadow: 0 2px 8px rgba(0,0,0,0.4); 
+                object-fit: contain;
+            }
+            .logo-box {
+                width: 55px;
+                height: 55px;
+                background-color: #1f538d;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 26px;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.4);
             }
             .main-layout { 
                 display: flex; 
@@ -138,16 +150,17 @@ def home():
     </head>
     <body>
         <div class="header">
-            <!-- GitHub Raw Üzerinden Doğrudan Yüklenen Logo -->
+            <!-- GitHub Üzerinden Yüklenen Logo.jpg -->
             <img src="https://raw.githubusercontent.com/mehmtyilmz60-collab/demiryol-vagon-app/main/Logo.jpg" 
                  class="logo-img" 
                  alt="Logo" 
-                 onerror="this.style.display='none'">
+                 onerror="this.style.display='none'; document.getElementById('alt-logo').style.display='flex';">
+            <div id="alt-logo" class="logo-box" style="display:none;">🚆</div>
             <h2>Demiryol Vagon Bakım & Adam-Saat Takip</h2>
         </div>
         
         <div class="main-layout">
-            <!-- Sol Panel: İşlemler & Form -->
+            <!-- Sol Panel: Form -->
             <div class="left-panel">
                 <h3>➕ Vagon Kayıt / Güncelleme</h3>
                 
@@ -180,11 +193,60 @@ def home():
                 <button onclick="kaydet()">💾 Kaydet & Geçmişe İşle</button>
             </div>
 
-            <!-- Sağ Panel: Liste & Adam-Saat Tablosu -->
+            <!-- Sağ Panel: Tablo -->
             <div class="right-panel">
                 <div style="display:flex; gap:10px;">
                     <button onclick="verileriYukle()">🔄 Yenile</button>
                     <button class="btn-excel" onclick="alert('Excel Adam-Saat Raporu indiriliyor...')">📊 Excel Rapor</button>
                 </div>
 
-                <div style="overflow-x
+                <div style="overflow-x:auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Vagon</th>
+                                <th>Giriş</th>
+                                <th>Bitiş</th>
+                                <th>Adam-Saat</th>
+                                <th>Durum</th>
+                            </tr>
+                        </thead>
+                        <tbody id="vagonBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <script>
+            async function verileriYukle() {
+                let res = await fetch('/api/vagonlar');
+                let data = await res.json();
+                let bodyHtml = '';
+                
+                data.forEach(item => {
+                    let badgeClass = 'status-bekliyor';
+                    if(item.durum === 'Parça bekliyor') badgeClass = 'status-parca';
+                    if(item.durum === 'Bakım devam ediyor') badgeClass = 'status-bakim';
+                    if(item.durum === 'Tamamlandı') badgeClass = 'status-tamam';
+
+                    bodyHtml += `<tr onclick="gecmisGoster('${item.vagon_no}', '${item.aciklama}', '${encodeURIComponent(JSON.stringify(item.gecmis || []))}')">
+                        <td>${item.id}</td>
+                        <td><b>${item.vagon_no}</b></td>
+                        <td>${item.giris_tarihi || '-'}</td>
+                        <td>${item.bitis_tarihi || '-'}</td>
+                        <td class="adam-saat">${item.adam_saat || 0} A/S</td>
+                        <td><span class="badge ${badgeClass}">${item.durum}</span></td>
+                    </tr>`;
+                });
+                document.getElementById('vagonBody').innerHTML = bodyHtml;
+            }
+
+            async function kaydet() {
+                let vagon_no = document.getElementById('vagon_no').value;
+                let giris_tarihi = document.getElementById('giris_tarihi').value;
+                let kanal_tarihi = document.getElementById('kanal_tarihi').value;
+                let bitis_tarihi = document.getElementById('bitis_tarihi').value;
+                let personel_sayisi = parseInt(document.getElementById('personel_sayisi').value) || 1;
+                let durum = document.getElementById('durum').value;
+                let aciklama = document.getElementById('aciklama
