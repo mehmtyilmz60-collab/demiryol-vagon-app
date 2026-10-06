@@ -1,12 +1,12 @@
 from fastapi import FastAPI
 from fastapi.responses import HTMLResponse
 from pydantic import BaseModel
-from typing import Optional, List
+from typing import Optional
 from datetime import datetime
 
+# Vercel'in aradığı ana uygulama değişkeni (Top-level app)
 app = FastAPI()
 
-# Gelişmiş Veritabanı Yapısı (Adam-Saat ve Geçmiş / Log Destekli)
 vagonlar_db = [
     {
         "id": 1,
@@ -20,7 +20,7 @@ vagonlar_db = [
         "gecmis": [
             "01.10.2026 08:00 - Atölyeye giriş yaptı.",
             "02.10.2026 10:00 - Kanala alındı.",
-            "05.10.2026 16:00 - Bakım tamamlandı. Toplam 104 saat (336 Adam-Saat)."
+            "05.10.2026 16:00 - Bakım tamamlandı."
         ]
     }
 ]
@@ -46,7 +46,6 @@ def home():
         <style>
             body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #1a1a1a; color: #ffffff; margin: 0; padding: 15px; }
             .header { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 20px; }
-            .logo { width: 50px; height: 50px; border-radius: 8px; }
             .main-layout { display: flex; flex-wrap: wrap; gap: 15px; max-width: 1200px; margin: 0 auto; }
             .left-panel, .right-panel { background-color: #2b2b2b; padding: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
             .left-panel { flex: 1; min-width: 300px; }
@@ -73,9 +72,7 @@ def home():
     </head>
     <body>
         <div class="header">
-            <!-- Kulüp / Şirket Logosu -->
-            <img src="https://via.placeholder.com/50/1f538d/ffffff?text=DVK" class="logo" alt="Logo">
-            <h2>Demiryol Vagon Bakım & Adam-Saat Takip</h2>
+            <h2>🚆 Demiryol Vagon Bakım & Adam-Saat Takip</h2>
         </div>
         
         <div class="main-layout">
@@ -201,7 +198,6 @@ def home():
 
 @app.get("/api/vagonlar")
 def vagon_listesi():
-    # Otomatik Adam-Saat Hesabı Yapan Mantık
     for vagon in vagonlar_db:
         try:
             fmt = "%d.%m.%Y %H:%M"
@@ -209,3 +205,27 @@ def vagon_listesi():
             d2 = datetime.strptime(vagon["bitis_tarihi"], fmt)
             saat_farki = (d2 - d1).total_seconds() / 3600
             vagon["adam_saat"] = round(saat_farki * vagon.get("personel_sayisi", 1), 1)
+        except Exception:
+            vagon["adam_saat"] = 0
+    return vagonlar_db
+
+@app.post("/api/vagon-ekle")
+def vagon_ekle(vagon: VagonModel):
+    yeni_id = len(vagonlar_db) + 1
+    simdi = datetime.now().strftime("%d.%m.%Y %H:%M")
+    
+    gecmis_notu = f"{simdi} - Durum: {vagon.durum} ({vagon.personel_sayisi} personel)"
+    
+    yeni_vagon = {
+        "id": yeni_id,
+        "vagon_no": vagon.vagon_no,
+        "giris_tarihi": vagon.giris_tarihi,
+        "kanal_tarihi": vagon.kanal_tarihi,
+        "bitis_tarihi": vagon.bitis_tarihi,
+        "personel_sayisi": vagon.personel_sayisi,
+        "durum": vagon.durum,
+        "aciklama": vagon.aciklama,
+        "gecmis": [gecmis_notu]
+    }
+    vagonlar_db.append(yeni_vagon)
+    return {"status": "success", "vagon": yeni_vagon}
