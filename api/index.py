@@ -6,7 +6,7 @@ from datetime import datetime
 
 app = FastAPI()
 
-# Başlangıç Örnek Veritabanı Yapısı
+# Örnek Veritabanı Yapısı
 vagonlar_db = [
     {
         "id": 1,
@@ -58,7 +58,7 @@ def home():
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Demiryol Vagon Takip & Adam-Saat</title>
         <style>
-            /* CustomTkinter Dark-Blue Görsel Teması */
+            /* CustomTkinter Dark-Blue Teması */
             body { 
                 font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
                 background-color: #1a1a1a; 
@@ -74,22 +74,10 @@ def home():
                 margin-bottom: 20px; 
             }
             .logo-img { 
-                height: 60px; 
+                height: 55px; 
                 width: auto; 
-                border-radius: 8px; 
-                box-shadow: 0 2px 8px rgba(0,0,0,0.4); 
+                border-radius: 6px; 
                 object-fit: contain;
-            }
-            .logo-box {
-                width: 55px;
-                height: 55px;
-                background-color: #1f538d;
-                border-radius: 8px;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                font-size: 26px;
-                box-shadow: 0 2px 8px rgba(0,0,0,0.4);
             }
             .main-layout { 
                 display: flex; 
@@ -150,12 +138,11 @@ def home():
     </head>
     <body>
         <div class="header">
-            <!-- GitHub Üzerinden Yüklenen Logo.jpg -->
-            <img src="https://raw.githubusercontent.com/mehmtyilmz60-collab/demiryol-vagon-app/main/Logo.jpg" 
+            <!-- GitHub Raw Üzerinden Doğrudan Okunan logo.png -->
+            <img src="https://raw.githubusercontent.com/mehmtyilmz60-collab/demiryol-vagon-app/main/logo.png" 
                  class="logo-img" 
-                 alt="Logo" 
-                 onerror="this.style.display='none'; document.getElementById('alt-logo').style.display='flex';">
-            <div id="alt-logo" class="logo-box" style="display:none;">🚆</div>
+                 alt="Logo"
+                 onerror="this.src='https://raw.githubusercontent.com/mehmtyilmz60-collab/demiryol-vagon-app/main/Logo.jpg'">
             <h2>Demiryol Vagon Bakım & Adam-Saat Takip</h2>
         </div>
         
@@ -249,4 +236,4 @@ def home():
                 let bitis_tarihi = document.getElementById('bitis_tarihi').value;
                 let personel_sayisi = parseInt(document.getElementById('personel_sayisi').value) || 1;
                 let durum = document.getElementById('durum').value;
-                let aciklama = document.getElementById('aciklama
+                let
