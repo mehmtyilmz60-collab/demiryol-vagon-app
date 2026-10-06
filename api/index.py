@@ -123,11 +123,8 @@ def home():
         <div class="sidebar">
             <div>
                 <div class="logo-area">
-                    <!-- Gömülü Yüksek Çözünürlüklü Kulüp Amblemi (Asla Kırılmaz) -->
-                    <img src="https://raw.githubusercontent.com/mehmtyilmz60-collab/demiryol-vagon-app/main/logo.png" 
-                         class="logo-img" 
-                         alt="Gebze Vagon Bilim Kültür Kulübü"
-                         onerror="this.onerror=null; this.src='https://raw.githubusercontent.com/mehmtyilmz60-collab/demiryol-vagon-app/main/Logo.jpg';">
+                    <!-- Vercel Public Klasöründeki Statik Logo -->
+                    <img src="/logo.png" class="logo-img" alt="Gebze Vagon Bilim Kültür Kulübü">
                 </div>
                 
                 <div class="nav-menu">
