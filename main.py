@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime
 
-# Vercel'in aradığı ana uygulama değişkeni (Top-level app)
+# Vercel'in aradığı ana uygulama değişkeni
 app = FastAPI()
 
 vagonlar_db = [
