@@ -45,6 +45,7 @@ def home():
         <style>
             body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #1a1a1a; color: #ffffff; margin: 0; padding: 15px; }
             .header { display: flex; align-items: center; justify-content: center; gap: 15px; margin-bottom: 20px; }
+            .logo-img { height: 55px; width: auto; border-radius: 6px; }
             .main-layout { display: flex; flex-wrap: wrap; gap: 15px; max-width: 1200px; margin: 0 auto; }
             .left-panel, .right-panel { background-color: #2b2b2b; padding: 15px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
             .left-panel { flex: 1; min-width: 300px; }
@@ -71,7 +72,9 @@ def home():
     </head>
     <body>
         <div class="header">
-            <h2>🚆 Demiryol Vagon Bakım & Adam-Saat Takip</h2>
+            <!-- Yüklediğiniz Logo.jpg Dosyası -->
+            <img src="/Logo.jpg" class="logo-img" alt="Logo">
+            <h2>Demiryol Vagon Bakım & Adam-Saat Takip</h2>
         </div>
         
         <div class="main-layout">
