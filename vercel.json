@@ -1,6 +1,10 @@
 {
   "routes": [
     {
+      "src": "/logo.png",
+      "dest": "/logo.png"
+    },
+    {
       "src": "/(.*)",
       "dest": "api/index.py"
     }
