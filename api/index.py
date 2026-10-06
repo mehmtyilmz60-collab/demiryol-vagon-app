@@ -15,7 +15,7 @@ vagonlar_db = [
         "personel_sayisi": 3,
         "bekleme_suresi": "354 Gün",
         "durum": "Bakım devam ediyor",
-        "aciklama": "Tekerlek takımı kontrol ediliyor."
+        "aciklama": "Gebze Vagon Bakım Atölyesi - Tekerlek takımı kontrol ediliyor."
     },
     {
         "id": 2,
@@ -25,7 +25,7 @@ vagonlar_db = [
         "personel_sayisi": 2,
         "bekleme_suresi": "323 Gün",
         "durum": "Bakım devam ediyor",
-        "aciklama": "Rulman revizyonu."
+        "aciklama": "Rulman revizyonu yapılıyor."
     },
     {
         "id": 3,
@@ -45,7 +45,7 @@ vagonlar_db = [
         "personel_sayisi": 4,
         "bekleme_suresi": "37 Gün",
         "durum": "Tamamlandı",
-        "aciklama": "Tamir tamamlandı, teslime hazır."
+        "aciklama": "Tamir ve genel bakım tamamlandı."
     }
 ]
 
@@ -65,17 +65,19 @@ def home():
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Vagon Bakım ve Takip Sistemi</title>
+        <title>Vagon Bakım ve Takip Sistemi - DBKK</title>
         <style>
             * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
             body { margin: 0; padding: 0; background-color: #121212; color: #ffffff; display: flex; height: 100vh; overflow: hidden; }
             
             /* Sol Menü (Sidebar) */
-            .sidebar { width: 260px; background-color: #1a1a1a; padding: 20px 15px; display: flex; flex-direction: column; justify-content: space-between; border-right: 1px solid #2a2a2a; }
-            .logo-area { text-align: center; margin-bottom: 20px; }
-            .logo-img { width: 130px; height: 130px; border-radius: 50%; border: 3px solid #b91c1c; box-shadow: 0 0 15px rgba(185, 28, 28, 0.5); object-fit: cover; }
+            .sidebar { width: 270px; background-color: #1a1a1a; padding: 20px 15px; display: flex; flex-direction: column; justify-content: space-between; border-right: 1px solid #2a2a2a; }
+            .logo-container { text-align: center; margin-bottom: 20px; display: flex; flex-direction: column; align-items: center; }
             
-            .nav-menu { display: flex; flex-direction: column; gap: 10px; }
+            /* Dairesel Kulüp Logosu (SVG) */
+            .club-logo { width: 130px; height: 130px; border-radius: 50%; box-shadow: 0 0 20px rgba(185, 28, 28, 0.5); }
+            
+            .nav-menu { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
             .nav-btn { background: transparent; color: #cccccc; border: none; padding: 12px 15px; border-radius: 6px; text-align: left; font-size: 14px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.2s; }
             .nav-btn:hover { background-color: #2a2a2a; color: #fff; }
             .nav-btn.active { background-color: #1f538d; color: #fff; }
@@ -107,9 +109,9 @@ def home():
             
             .summary-text { margin-top: 15px; color: #f97316; font-weight: bold; font-size: 14px; }
 
-            /* Modal */
+            /* Modal Pop-up */
             .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 1000; }
-            .modal { background-color: #222; padding: 25px; border-radius: 10px; width: 400px; border: 1px solid #444; box-shadow: 0 5px 20px rgba(0,0,0,0.8); }
+            .modal { background-color: #222; padding: 25px; border-radius: 10px; width: 420px; border: 1px solid #444; box-shadow: 0 5px 20px rgba(0,0,0,0.8); }
             .modal h3 { margin-top: 0; color: #fff; border-bottom: 1px solid #444; padding-bottom: 10px; }
             .form-group { margin-bottom: 12px; }
             .form-group label { display: block; font-size: 12px; color: #aaa; margin-bottom: 4px; }
@@ -122,12 +124,31 @@ def home():
         <!-- Sol Yan Menü -->
         <div class="sidebar">
             <div>
-                <div class="logo-area">
-                    <!-- GitHub Raw Yolu Üzerinden Doğrudan Okuma -->
-                    <img src="https://raw.githubusercontent.com/mehmtyilmz60-collab/demiryol-vagon-app/main/logo.png" 
-                         class="logo-img" 
-                         alt="Gebze Vagon Bilim Kültür Kulübü"
-                         onerror="this.src='https://raw.githubusercontent.com/mehmtyilmz60-collab/demiryol-vagon-app/main/Logo.jpg';">
+                <div class="logo-container">
+                    <!-- Demiryol Bilim ve Kültür Kulübü Vektörel Dairesel Logosu -->
+                    <svg class="club-logo" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="100" cy="100" r="96" fill="#181818" stroke="#b91c1c" stroke-width="6"/>
+                        <circle cx="100" cy="100" r="82" fill="none" stroke="#dc2626" stroke-width="2" stroke-dasharray="4,4"/>
+                        <path id="textPath" fill="none" d="M 25, 100 A 75,75 0 1,1 175,100"/>
+                        <path id="textPathBottom" fill="none" d="M 175, 100 A 75,75 0 0,1 25,100"/>
+                        <text fill="#ffffff" font-size="11.5" font-weight="bold" letter-spacing="1.5">
+                            <textPath href="#textPath" startOffset="50%" text-anchor="middle">
+                                DEMİRYOL BİLİM KÜLTÜR KULÜBÜ
+                            </textPath>
+                        </text>
+                        <text fill="#ef4444" font-size="9" font-weight="bold" letter-spacing="1">
+                            <textPath href="#textPathBottom" startOffset="50%" text-anchor="middle">
+                                GEBZE VAGON BAKIM
+                            </textPath>
+                        </text>
+                        <circle cx="100" cy="100" r="52" fill="#b91c1c"/>
+                        <!-- Kitap ve El Sıkışma Simgesi -->
+                        <g transform="translate(100, 100) scale(0.95)">
+                            <path d="M-25,-10 Q0,-20 25,-10 L25,18 Q0,8 -25,18 Z" fill="#ffffff"/>
+                            <path d="M-25,-10 Q0,-20 0,18 Q-12,8 -25,18 Z" fill="#f3f4f6"/>
+                            <path d="M-12,-2 L-2,8 L12,-6" fill="none" stroke="#b91c1c" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                        </g>
+                    </svg>
                 </div>
                 
                 <div class="nav-menu">
@@ -156,8 +177,8 @@ def home():
                     </select>
                     
                     <button class="btn-action btn-add" onclick="modalAc()">+ Yeni Kayıt Ekle</button>
-                    <button class="btn-action btn-edit" onclick="alert('Lütfen tablodan güncellenecek vagonu seçin.')">✏️ Güncelle</button>
-                    <button class="btn-action btn-delete" onclick="alert('Lütfen silinecek vagonu seçin.')">🗑️ Sil</button>
+                    <button class="btn-action btn-edit" onclick="alert('Lütfen tablodan bir vagon seçin.')">✏️ Güncelle</button>
+                    <button class="btn-action btn-delete" onclick="alert('Lütfen bir vagon seçin.')">🗑️ Sil</button>
                 </div>
             </div>
 
@@ -209,7 +230,7 @@ def home():
                 </div>
                 <div class="form-group">
                     <label>Açıklama / Atölye Notu</label>
-                    <input type="text" id="m_aciklama" placeholder="Not ekleyin...">
+                    <input type="text" id="m_aciklama" placeholder="Açıklama veya not yazın...">
                 </div>
                 <div class="modal-buttons">
                     <button class="btn-action btn-add" style="flex:1;" onclick="vagonKaydet()">Kaydet</button>
@@ -228,7 +249,7 @@ def home():
             function renderTable(data) {
                 let html = '';
                 data.forEach(item => {
-                    html += `<tr onclick="alert('VAGON DETAYI:\\n' + '${item.vagon_no}' + '\\n' + '${item.aciklama}')">
+                    html += `<tr onclick="alert('VAGON NOTU:\\n' + '${item.vagon_no}' + '\\n\\n' + '${item.aciklama}')">
                         <td><b>${item.vagon_no}</b></td>
                         <td>${item.giris_tarihi}</td>
                         <td>${item.bitis_tarihi || '-'}</td>
@@ -251,7 +272,7 @@ def home():
                 let durum = document.getElementById('m_durum').value;
                 let aciklama = document.getElementById('m_aciklama').value;
 
-                if(!vagon_no) { alert('Vagon No boş bırakılamaz.'); return; }
+                if(!vagon_no) { alert('Vagon Numarası boş bırakılamaz.'); return; }
 
                 let res = await fetch('/api/vagon-ekle', {
                     method: 'POST',
