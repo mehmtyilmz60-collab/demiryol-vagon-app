@@ -72,10 +72,10 @@ def home():
             
             /* Sol Menü (Sidebar) */
             .sidebar { width: 260px; background-color: #1a1a1a; padding: 20px 15px; display: flex; flex-direction: column; justify-content: space-between; border-right: 1px solid #2a2a2a; }
-            .logo-area { text-align: center; margin-bottom: 25px; }
-            .logo-img { width: 140px; height: 140px; border-radius: 50%; border: 2px solid #b91c1c; box-shadow: 0 0 15px rgba(185, 28, 28, 0.4); object-fit: cover; }
+            .logo-area { text-align: center; margin-bottom: 20px; }
+            .logo-img { width: 130px; height: 130px; border-radius: 50%; border: 3px solid #b91c1c; box-shadow: 0 0 15px rgba(185, 28, 28, 0.5); object-fit: cover; }
             
-            .nav-menu { display: flex; flex-direction: column; gap: 12px; }
+            .nav-menu { display: flex; flex-direction: column; gap: 10px; }
             .nav-btn { background: transparent; color: #cccccc; border: none; padding: 12px 15px; border-radius: 6px; text-align: left; font-size: 14px; font-weight: bold; cursor: pointer; display: flex; align-items: center; gap: 10px; transition: 0.2s; }
             .nav-btn:hover { background-color: #2a2a2a; color: #fff; }
             .nav-btn.active { background-color: #1f538d; color: #fff; }
@@ -107,7 +107,7 @@ def home():
             
             .summary-text { margin-top: 15px; color: #f97316; font-weight: bold; font-size: 14px; }
 
-            /* Modal (Yeni Kayıt Penceresi) */
+            /* Modal */
             .modal-overlay { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); justify-content: center; align-items: center; z-index: 1000; }
             .modal { background-color: #222; padding: 25px; border-radius: 10px; width: 400px; border: 1px solid #444; box-shadow: 0 5px 20px rgba(0,0,0,0.8); }
             .modal h3 { margin-top: 0; color: #fff; border-bottom: 1px solid #444; padding-bottom: 10px; }
@@ -123,8 +123,11 @@ def home():
         <div class="sidebar">
             <div>
                 <div class="logo-area">
-                    <!-- Vercel Public Klasöründeki Statik Logo -->
-                    <img src="/logo.png" class="logo-img" alt="Gebze Vagon Bilim Kültür Kulübü">
+                    <!-- GitHub Raw Yolu Üzerinden Doğrudan Okuma -->
+                    <img src="https://raw.githubusercontent.com/mehmtyilmz60-collab/demiryol-vagon-app/main/logo.png" 
+                         class="logo-img" 
+                         alt="Gebze Vagon Bilim Kültür Kulübü"
+                         onerror="this.src='https://raw.githubusercontent.com/mehmtyilmz60-collab/demiryol-vagon-app/main/Logo.jpg';">
                 </div>
                 
                 <div class="nav-menu">
@@ -176,7 +179,7 @@ def home():
             <div class="summary-text" id="toplamVagonText">Toplam vagon sayısı: 0</div>
         </div>
 
-        <!-- Yeni Kayıt Ekle Pop-Up (Modal) -->
+        <!-- Pop-Up Modal -->
         <div class="modal-overlay" id="modalOverlay">
             <div class="modal">
                 <h3>+ Yeni Vagon Kaydı Ekle</h3>
